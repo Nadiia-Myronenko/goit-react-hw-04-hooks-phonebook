@@ -40,3 +40,7 @@ export const DeleteButton = styled.button`
   height: 18px;
   cursor: pointer;
 `;
+export const Notification = styled.p`
+  font-style: italic;
+  text-align: center;
+`;
