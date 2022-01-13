@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Wrapper from "./components/Wrapper/Wrapper.styled";
 import MainHeader from "./components/MainHeder/MainHeader.styled";
@@ -8,12 +8,17 @@ import shortid from "shortid";
 import SearchField from "./components/SearchField/SearchField";
 
 const App = () => {
-  const [contacts, setContacts] = useState([
+  const [contacts, setContacts] = useState(
+    () => {
+      return JSON.parse(localStorage.getItem("contacts"));
+    }
+    /*[
     { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
     { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
     { id: "id-3", name: "Eden Clements", number: "645-17-79" },
     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-  ]);
+  ]*/
+  );
 
   const [filter, setFilter] = useState("");
 
@@ -43,25 +48,10 @@ const App = () => {
   const onContactSearch = (event) => {
     setFilter(event.currentTarget.value);
   };
-  /*componentDidMount() {
-    const contacts = localStorage.getItem("contacts");
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
-    }
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      //use this condition check because we every time create a new array
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
-    }
-  }*/
-  /*
-     const { contacts, filter } = this.state;
-     const normalizedFilter = filter.toLowerCase();
-     const filteredContacts = contacts.filter((contact) =>
-       contact.name.toLowerCase().includes(normalizedFilter)
-     );*/
+  useEffect(() => {
+    window.localStorage.setItem("contacts", JSON.stringify(contacts));
+  });
+
   const normalizedFilter = filter.toLowerCase();
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(normalizedFilter)
